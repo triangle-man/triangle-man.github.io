@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-11-25 Sat 15:34 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Relational Model</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="James Geddes" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2017 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">The Relational Model</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org55bdaae">1. Overview</a>
+<ul>
+<li><a href="#org90f3e67">1.1. Q1: What is data?</a></li>
+<li><a href="#orgfe50094">1.2. What level are we going to talk about?</a></li>
+<li><a href="#orgb127ee4">1.3. Challenges</a></li>
+</ul>
+</li>
+<li><a href="#org0a1f408">2. Part I: The conceptual model</a>
+<ul>
+<li><a href="#orgfdc0e14">2.1. Example A: House Prices</a></li>
+<li><a href="#orgdbdb836">2.2. Q2: What does this data look like?</a></li>
+<li><a href="#org7fdef39">2.3. An informal description of a table</a></li>
+<li><a href="#orgd0478dd">2.4. Formal definition of a relation</a></li>
+<li><a href="#org18f35fa">2.5. Q3: About relations</a></li>
+<li><a href="#org6c3a863">2.6. Operations on relations</a></li>
+</ul>
+</li>
+<li><a href="#orgdbbb42a">3. Part II: The logical model</a>
+<ul>
+<li><a href="#org69869cc">3.1. Example B: the "survey" database</a></li>
+<li><a href="#orgca53f1f">3.2. Q4: Using the database</a></li>
+<li><a href="#org94025db">3.3. SQL: The language of the relational algebra</a>
+<ul>
+<li><a href="#org4c7e439">3.3.1. Single-table queries</a></li>
+<li><a href="#org85a8e3a">3.3.2. Q5: Selecting, computing, and grouping</a></li>
+</ul>
+</li>
+<li><a href="#org3cba2fd">3.4. Q6: Multiple-table queries</a></li>
+<li><a href="#org85ff10f">3.5. Recursive queries</a></li>
+<li><a href="#orga1a16b3">3.6. Questions</a></li>
+</ul>
+</li>
+<li><a href="#orgbb58a5e">4. Part III: Data modelling</a></li>
+</ul>
+</div>
+</div>
+<div class="html">
+<p>
+&#x2014;
+layout: post
+title: The Relational Model
+&#x2014;
+</p>
+
+</div>
+
+<div id="outline-container-org55bdaae" class="outline-2">
+<h2 id="org55bdaae"><span class="section-number-2">1</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org90f3e67" class="outline-3">
+<h3 id="org90f3e67"><span class="section-number-3">1.1</span> Q1: What is data?</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+The relational model is interested in modelling <i>facts</i>. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfe50094" class="outline-3">
+<h3 id="orgfe50094"><span class="section-number-3">1.2</span> What level are we going to talk about?</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+From abstract to concrete:
+</p>
+
+<ol class="org-ol">
+<li>The <i>conceptual</i> level is the mathematics of facts: it is expressed using
+set-theoretic notions.</li>
+
+<li>The <i>logical</i> level describes how the conceptual model is represented and
+manipulated by a computer. It is the level of SQL, the language with which
+you interact with the database.</li>
+
+<li>The <i>physical</i> level is the "back-end": it describes how the bits are
+organised within a computer, how your commands are understood and compiled,
+and the mechanics of computation on data.</li>
+</ol>
+
+<p>
+We will talk exclusively about the conceptual and logical levels. The main
+challenge in this subject is that very few existing database systems correctly
+model the conceptual model.
+</p>
+
+<p>
+I'll start with some data and talk about what the logical level might look like,
+then move to the conceptual, then back to the logical level.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb127ee4" class="outline-3">
+<h3 id="orgb127ee4"><span class="section-number-3">1.3</span> Challenges</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>Most database systems incorrectly implement the conceptual level</li>
+<li>Most practitioners know only the logical level</li>
+<li>Much real-world code drags in the physical level where it doesn't belong</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0a1f408" class="outline-2">
+<h2 id="org0a1f408"><span class="section-number-2">2</span> Part I: The conceptual model</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgfdc0e14" class="outline-3">
+<h3 id="orgfdc0e14"><span class="section-number-3">2.1</span> Example A: House Prices</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Look at <a href="data/median-house-price-by-lad.csv">data/median-house-price-by-lad.csv</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdbdb836" class="outline-3">
+<h3 id="orgdbdb836"><span class="section-number-3">2.2</span> Q2: What does this data look like?</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>What kind of structure is this?</li>
+<li>What regularities can you see?</li>
+<li>What anomalies are there?</li>
+<li>Would you make any structural changes?</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7fdef39" class="outline-3">
+<h3 id="org7fdef39"><span class="section-number-3">2.3</span> An informal description of a table</h3>
+<div class="outline-text-3" id="text-2-3">
+<ol class="org-ol">
+<li>The data is written as a <i>table</i>, which consists of a <i>header</i> and a sequence
+<i>rows</i>.</li>
+
+<li>All the rows have the same structure, as determined by the header: a row is
+a sequence of values; and the type of each value is determined by the header.</li>
+</ol>
+
+<p>
+The next section is a formal version of that specfication. Very few real-world
+databases correctly follow this formal version but it is nonetheless helpful to
+have it in mind.
+</p>
+
+<p>
+The relational model represents facts, of a certain sort. The sort of facts it
+represents are those of the form \(P(x, y, \dots, z)\) where \(P\) is a <i>predicate</i>,
+ie, either true of false depending on the values asigned to the \(x, y, \dots
+z\).
+</p>
+
+<p>
+<i>Example</i>: Looking at our example table, \(H(d, n, p_1, p_2)\) might represent the
+proposition “the regional district \(d\) has name \(n\), and an average house price
+in 1996 of \(p_1\) and in 2009 of \(p_2\).”
+</p>
+
+<p>
+<i>Example</i>: \(P(f, l)\) might mean “there exists a person having first name \(f\) and
+last name \(l\).”
+</p>
+
+<p>
+A relational database represents these facts by explicitly storing the
+<i>extension</i> of such a \(P\); that is, the set of all values of \(x, y, \dots z\)
+that make the predicate true. For any other values, the proposition is assumed
+to be false. 
+</p>
+
+<p>
+The <i>closed-world assumption:</i> If some tuple is not in the database, then the
+corresponding proposition if fasle. The closed-world assumption is frequently
+violated in real-world databases.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgd0478dd" class="outline-3">
+<h3 id="orgd0478dd"><span class="section-number-3">2.4</span> Formal definition of a relation</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+The following translation is not exact:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Conceptual</th>
+<th scope="col" class="org-left">Logical</th>
+<th scope="col" class="org-left">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Domain</td>
+<td class="org-left">Type</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Attribute</td>
+<td class="org-left">Column header</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Header</td>
+<td class="org-left">Header</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Relation</td>
+<td class="org-left">Table</td>
+<td class="org-left"><i>Header and rows</i></td>
+</tr>
+
+<tr>
+<td class="org-left">Body</td>
+<td class="org-left">Body</td>
+<td class="org-left"><i>Set of rows</i></td>
+</tr>
+
+<tr>
+<td class="org-left">Tuple</td>
+<td class="org-left">Row</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Value</td>
+<td class="org-left">Field, value</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+A <i>domain</i> is a finite (!) set. All "values" in the relational model are
+elements of some particular domain.
+</p>
+
+<p>
+We assume the existence of some set of possible "names". (These are usually
+strings satisfying restrictions that make them suitable for computer variables
+names.)
+</p>
+
+<p>
+An <i>attribute</i> is a pair, consisting of a name and a domain.
+</p>
+
+<p>
+A <i>header</i> is a finite set (possibly empty) of attributes, such that all the
+names are unique.
+</p>
+
+<p>
+A <i>relation</i> is a header, together with a subset of the cartesian product of all
+the domains in the header. This subset is called the <i>body</i> of the relation. An
+element of the body is called a <i>tuple</i>. 
+</p>
+
+<p>
+Thus a tuple is, for every attribute in the header, a value in the domain of
+that attribute.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org18f35fa" class="outline-3">
+<h3 id="org18f35fa"><span class="section-number-3">2.5</span> Q3: About relations</h3>
+<div class="outline-text-3" id="text-2-5">
+<ol class="org-ol">
+<li>From the <i>definition</i> of relation:
+<ul class="org-ul">
+<li>Does order of tuples matter?</li>
+<li>Does order of attributes matter?</li>
+<li>Is every tuple unique?</li>
+</ul></li>
+
+<li>Is the example dataset a relation?</li>
+
+<li>How many relations have no attributes? What is/are they? Why would you use
+them?</li>
+
+<li>Is it possible for a value to be <code>NULL</code> or “missing”?</li>
+
+<li>What kinds of operation can you imagine on a single relation?</li>
+
+<li>What kinds of operation can you imagine on one or more relations?</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org6c3a863" class="outline-3">
+<h3 id="org6c3a863"><span class="section-number-3">2.6</span> Operations on relations</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+This is the <i>relational algebra</i>. 
+</p>
+
+<p>
+It's called an algebra because all the operations produce a relation.
+</p>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orgdbbb42a" class="outline-2">
+<h2 id="orgdbbb42a"><span class="section-number-2">3</span> Part II: The logical model</h2>
+<div class="outline-text-2" id="text-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Conceptual</th>
+<th scope="col" class="org-left">Logical</th>
+<th scope="col" class="org-left">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Domain</td>
+<td class="org-left">Type</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Attribute</td>
+<td class="org-left">Column header</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Header</td>
+<td class="org-left">Header</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Relation</td>
+<td class="org-left">Table</td>
+<td class="org-left"><i>Header and rows</i></td>
+</tr>
+
+<tr>
+<td class="org-left">Body</td>
+<td class="org-left">Body</td>
+<td class="org-left"><i>Set of rows</i></td>
+</tr>
+
+<tr>
+<td class="org-left">Tuple</td>
+<td class="org-left">Row</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Value</td>
+<td class="org-left">Field, value</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+In real-world datasets, we often have the following:
+</p>
+
+<ul class="org-ul">
+<li>Rows are not unique</li>
+<li>Column (or row) ordering matters</li>
+<li>Some values are missing or <code>NULL</code></li>
+</ul>
+</div>
+
+<div id="outline-container-org69869cc" class="outline-3">
+<h3 id="org69869cc"><span class="section-number-3">3.1</span> Example B: the "survey" database</h3>
+</div>
+
+<div id="outline-container-orgca53f1f" class="outline-3">
+<h3 id="orgca53f1f"><span class="section-number-3">3.2</span> Q4: Using the database</h3>
+<div class="outline-text-3" id="text-3-2">
+<ol class="org-ol">
+<li>Run sqlite (eg, type <code>sqlite3 survey.db</code> at the command line)</li>
+
+<li>Try <code>.help</code> (note the dot!)</li>
+
+<li>Try:
+<ul class="org-ul">
+<li><code>.databases</code></li>
+<li><code>.tables</code></li>
+<li><code>.schema</code></li>
+</ul></li>
+
+<li>Set the display mode:
+<ul class="org-ul">
+<li><code>.mode column</code></li>
+<li><code>.headers on</code></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org94025db" class="outline-3">
+<h3 id="org94025db"><span class="section-number-3">3.3</span> SQL: The language of the relational algebra</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+There is a standard, but particular products may or may not adhere to it
+perfectly. The <a href="https://sqlite.org/lang_select.html">sqlite website</a> documents the particular syntax understood by
+sqlite.
+</p>
+</div>
+
+
+<div id="outline-container-org4c7e439" class="outline-4">
+<h4 id="org4c7e439"><span class="section-number-4">3.3.1</span> Single-table queries</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span> col-expr [<span style="color: #859900;">AS</span> <span style="color: #859900;">name</span>], ... 
+<span style="color: #859900;">FROM</span> tbl
+[ <span style="color: #859900;">WHERE</span> expr ] 
+[ <span style="color: #859900;">GROUP</span> <span style="color: #859900;">BY</span> expr [ <span style="color: #859900;">HAVING</span> expr ]];
+</pre>
+</div>
+
+<p>
+There's a special syntax for getting all columns: Use <code>*</code> instead of a column
+name.
+</p>
+
+<p>
+Note that the result is always a table.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org85a8e3a" class="outline-4">
+<h4 id="org85a8e3a"><span class="section-number-4">3.3.2</span> Q5: Selecting, computing, and grouping</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<ol class="org-ol">
+<li>Select the identifier and the first name from the <code>Person</code> table.</li>
+
+<li>As (1) but rename the first name as <code>first_name</code>.</li>
+
+<li>Select the first and last dates from <code>Visited</code>. (Hint: there are functions
+<code>max()</code> and <code>min()</code> which also work on dates.)</li>
+
+<li>How many readings in total were made by each scientist? (Hint: there's a
+function <code>count()</code> which counts rows; you can say <code>count(*)</code>.)</li>
+
+<li>Will sqlite return a table with duplicate rows?</li>
+
+<li>What's the average temperature recorded across all sites and dates by all
+scientists?</li>
+
+<li>What's the average reading for each kind of measurements?</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org3cba2fd" class="outline-3">
+<h3 id="org3cba2fd"><span class="section-number-3">3.4</span> Q6: Multiple-table queries</h3>
+<div class="outline-text-3" id="text-3-4">
+<ol class="org-ol">
+<li>What's the average (hint: <code>avg()</code>) temperature recorded for each site across
+all visits?</li>
+</ol>
+
+
+<ol class="org-ol">
+<li></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org85ff10f" class="outline-3">
+<h3 id="org85ff10f"><span class="section-number-3">3.5</span> Recursive queries</h3>
+</div>
+
+<div id="outline-container-orga1a16b3" class="outline-3">
+<h3 id="orga1a16b3"><span class="section-number-3">3.6</span> Questions</h3>
+<div class="outline-text-3" id="text-3-6">
+<ol class="org-ol">
+<li>Questions from the software carpentry article</li>
+
+<li>Divide!</li>
+
+<li>Finding paths in graphs!</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgbb58a5e" class="outline-2">
+<h2 id="orgbb58a5e"><span class="section-number-2">4</span> Part III: Data modelling</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>constraints</li>
+
+<li>normal forms</li>
+</ul>
+
+
+<ol class="org-ol">
+<li>DDL</li>
+
+<li>Make a db out of the Excel files,</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 27 November 2017</p>
+<p class="author">Author: James Geddes</p>
+<p class="date">Created: 2017-11-25 Sat 15:34</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
