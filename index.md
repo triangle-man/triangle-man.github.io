@@ -1,8 +1,8 @@
 ---
+title: James Geddes
 layout: standard
-author: James Geddes
 ---
 
 Notes on the
-[file://./training/relational-model/relational-notes.html](relational model).
+[relational model](file://./training/relational-model/relational-notes.html).
 
