@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2017-11-26 Sun 11:20 -->
+<!-- 2017-11-26 Sun 12:55 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Relational Model</title>
@@ -261,48 +261,50 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org049e716">1. Overview</a>
+<li><a href="#org174b298">1. Introduction</a>
 <ul>
-<li><a href="#org0dcf3ea">1.1. What is data?</a></li>
-<li><a href="#org4b4a812">1.2. What level are we going to talk about?</a></li>
-<li><a href="#org9fc3487">1.3. Challenges</a></li>
+<li><a href="#org5220dfd">1.1. What is data?</a></li>
+<li><a href="#org40d598d">1.2. What level are we going to talk about?</a></li>
+<li><a href="#orgad9c139">1.3. Challenges</a></li>
 </ul>
 </li>
-<li><a href="#org51bcda5">2. The conceptual model</a>
+<li><a href="#org9764a9d">2. The conceptual model</a>
 <ul>
-<li><a href="#org66b1bb3">2.1. Example A: House Prices</a></li>
-<li><a href="#org887a5c4">2.2. An informal description of a table</a></li>
-<li><a href="#org3fd8f4b">2.3. Formal definition of a relation</a></li>
-<li><a href="#org04235ce">2.4. Operations on relations</a></li>
+<li><a href="#org0993679">2.1. Example A: House Prices</a></li>
+<li><a href="#orgf58c46b">2.2. An informal description of a table</a></li>
+<li><a href="#orgc37bec4">2.3. Formal definition of a relation</a></li>
+<li><a href="#orgf8b7328">2.4. Operations on relations</a></li>
 </ul>
 </li>
-<li><a href="#org3fa702e">3. The logical model</a>
+<li><a href="#orgdfaa49b">3. SQL and the logical model: Getting data out of databases</a>
 <ul>
-<li><a href="#orgd7b376d">3.1. Example B: the "survey" database</a></li>
-<li><a href="#orgd62b277">3.2. SQL: The language of the relational algebra</a>
+<li><a href="#org60d16e1">3.1. Example B: the "survey" database</a></li>
+<li><a href="#org594f164">3.2. SQL: The language of the relational algebra</a>
 <ul>
-<li><a href="#org13c23fc">3.2.1. Single-table queries</a></li>
-<li><a href="#org9c8c13e">3.2.2. Multiple table queries</a></li>
+<li><a href="#org111fb9d">3.2.1. Single-table queries</a></li>
+<li><a href="#orgb86c103">3.2.2. Multiple table queries</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgea64dc0">4. Data modelling</a>
+<li><a href="#org7a9e940">4. Data modelling: Getting data into databases</a>
 <ul>
-<li><a href="#org7b82972">4.1. NULLs</a></li>
-<li><a href="#org6c5a9f3">4.2. Normalisation</a></li>
+<li><a href="#org23b308d">4.1. NULLs</a></li>
+<li><a href="#orga31087c">4.2. Normalisation of tables</a></li>
+<li><a href="#org95ccf4b">4.3. Normalisation of databases</a></li>
+<li><a href="#orgf7fb260">4.4. Building a database</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
 
-<div id="outline-container-org049e716" class="outline-2">
-<h2 id="org049e716"><span class="section-number-2">1</span> Overview</h2>
+<div id="outline-container-org174b298" class="outline-2">
+<h2 id="org174b298"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org0dcf3ea" class="outline-3">
-<h3 id="org0dcf3ea"><span class="section-number-3">1.1</span> What is data?</h3>
+<div id="outline-container-org5220dfd" class="outline-3">
+<h3 id="org5220dfd"><span class="section-number-3">1.1</span> What is data?</h3>
 <div class="outline-text-3" id="text-1-1">
 <blockquote>
 <p>
@@ -312,22 +314,22 @@ Question 1: What is data?
 </div>
 </div>
 
-<div id="outline-container-org4b4a812" class="outline-3">
-<h3 id="org4b4a812"><span class="section-number-3">1.2</span> What level are we going to talk about?</h3>
+<div id="outline-container-org40d598d" class="outline-3">
+<h3 id="org40d598d"><span class="section-number-3">1.2</span> What level are we going to talk about?</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 From abstract to concrete:
 </p>
 
 <ol class="org-ol">
-<li>The <i>conceptual</i> level is the mathematics of facts: it is expressed using
+<li>The <b>conceptual</b> model is the mathematics of facts: it is expressed using
 set-theoretic notions.</li>
 
-<li>The <i>logical</i> level describes how the conceptual model is represented and
+<li>The <b>logical</b> model describes how the conceptual model is represented and
 manipulated by a computer. It is the level of SQL, the language with which
 you interact with the database.</li>
 
-<li>The <i>physical</i> level is the "back-end": it describes how the bits are
+<li>The <b>physical</b> model is the “back-end”: it describes how the bits are
 organised within a computer, how your commands are understood and compiled,
 and the mechanics of computation on data.</li>
 </ol>
@@ -335,18 +337,13 @@ and the mechanics of computation on data.</li>
 <p>
 We will talk exclusively about the conceptual and logical levels. The main
 challenge in this subject is that very few existing database systems correctly
-model the conceptual model.
-</p>
-
-<p>
-I'll start with some data and talk about what the logical level might look like,
-then move to the conceptual, then back to the logical level.
+implement the conceptual model.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org9fc3487" class="outline-3">
-<h3 id="org9fc3487"><span class="section-number-3">1.3</span> Challenges</h3>
+<div id="outline-container-orgad9c139" class="outline-3">
+<h3 id="orgad9c139"><span class="section-number-3">1.3</span> Challenges</h3>
 <div class="outline-text-3" id="text-1-3">
 <ul class="org-ul">
 <li>Most database systems incorrectly implement the conceptual level</li>
@@ -358,12 +355,12 @@ then move to the conceptual, then back to the logical level.
 </div>
 
 
-<div id="outline-container-org51bcda5" class="outline-2">
-<h2 id="org51bcda5"><span class="section-number-2">2</span> The conceptual model</h2>
+<div id="outline-container-org9764a9d" class="outline-2">
+<h2 id="org9764a9d"><span class="section-number-2">2</span> The conceptual model</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org66b1bb3" class="outline-3">
-<h3 id="org66b1bb3"><span class="section-number-3">2.1</span> Example A: House Prices</h3>
+<div id="outline-container-org0993679" class="outline-3">
+<h3 id="org0993679"><span class="section-number-3">2.1</span> Example A: House Prices</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Look at <a href="data/median-house-price-by-lad.csv">data/median-house-price-by-lad.csv</a>
@@ -384,8 +381,8 @@ Question 2: What does this data look like?
 </div>
 </div>
 
-<div id="outline-container-org887a5c4" class="outline-3">
-<h3 id="org887a5c4"><span class="section-number-3">2.2</span> An informal description of a table</h3>
+<div id="outline-container-orgf58c46b" class="outline-3">
+<h3 id="orgf58c46b"><span class="section-number-3">2.2</span> An informal description of a table</h3>
 <div class="outline-text-3" id="text-2-2">
 <ol class="org-ol">
 <li>The data is written as a <i>table</i>, which consists of a <i>header</i> and a sequence
@@ -435,8 +432,8 @@ violated in real-world databases.
 </div>
 
 
-<div id="outline-container-org3fd8f4b" class="outline-3">
-<h3 id="org3fd8f4b"><span class="section-number-3">2.3</span> Formal definition of a relation</h3>
+<div id="outline-container-orgc37bec4" class="outline-3">
+<h3 id="orgc37bec4"><span class="section-number-3">2.3</span> Formal definition of a relation</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 The following translation is not exact:
@@ -543,20 +540,34 @@ Question 3: About relations
 </p>
 
 <ol class="org-ol">
-<li>From the <i>definition</i> of relation:
+<li>From the <b>definition</b> of relation:
 <ul class="org-ul">
 <li>Does order of tuples matter?</li>
 <li>Does order of attributes matter?</li>
 <li>Is every tuple unique?</li>
 </ul></li>
 
-<li>Is the example dataset a relation?</li>
+<li>Is the example dataset a relation? If not, why not?</li>
 
-<li>How many relations have <i>no</i> attributes? What is/are they? Why would you use
+<li>How many relations have <b>no</b> attributes? What is/are they? Why would you use
 them?</li>
 
 <li>Is it possible for a value to be <code>NULL</code> or “missing”?</li>
+</ol>
+</blockquote>
 
+<p>
+The point of relations is that they represent collections of facts. The idea of
+the <i>relational algebra</i> is to combine one or more relations to produce another
+relation. 
+</p>
+
+<blockquote>
+<p>
+Question 4: About an algebra of relations
+</p>
+
+<ol class="org-ol">
 <li>What kinds of operation can you imagine on a single relation?</li>
 
 <li>What kinds of operation can you imagine on one or more relations?</li>
@@ -565,8 +576,8 @@ them?</li>
 </div>
 </div>
 
-<div id="outline-container-org04235ce" class="outline-3">
-<h3 id="org04235ce"><span class="section-number-3">2.4</span> Operations on relations</h3>
+<div id="outline-container-orgf8b7328" class="outline-3">
+<h3 id="orgf8b7328"><span class="section-number-3">2.4</span> Operations on relations</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 This is the <i>relational algebra</i>. 
@@ -580,72 +591,9 @@ It's called an algebra because all the operations produce a relation.
 </div>
 
 
-<div id="outline-container-org3fa702e" class="outline-2">
-<h2 id="org3fa702e"><span class="section-number-2">3</span> The logical model</h2>
+<div id="outline-container-orgdfaa49b" class="outline-2">
+<h2 id="orgdfaa49b"><span class="section-number-2">3</span> SQL and the logical model: Getting data out of databases</h2>
 <div class="outline-text-2" id="text-3">
-<table>
-
-
-<colgroup>
-<col  class="org-left">
-
-<col  class="org-left">
-
-<col  class="org-left">
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Conceptual</th>
-<th scope="col" class="org-left">Logical</th>
-<th scope="col" class="org-left">Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Domain</td>
-<td class="org-left">Type</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Attribute</td>
-<td class="org-left">Column header</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Header</td>
-<td class="org-left">Header</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Relation</td>
-<td class="org-left">Table</td>
-<td class="org-left"><i>Header and rows</i></td>
-</tr>
-
-<tr>
-<td class="org-left">Body</td>
-<td class="org-left">Body</td>
-<td class="org-left"><i>Set of rows</i></td>
-</tr>
-
-<tr>
-<td class="org-left">Tuple</td>
-<td class="org-left">Row</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Value</td>
-<td class="org-left">Field, value</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-
-
 <p>
 In real-world datasets, we often have the following:
 </p>
@@ -657,12 +605,12 @@ In real-world datasets, we often have the following:
 </ul>
 </div>
 
-<div id="outline-container-orgd7b376d" class="outline-3">
-<h3 id="orgd7b376d"><span class="section-number-3">3.1</span> Example B: the "survey" database</h3>
+<div id="outline-container-org60d16e1" class="outline-3">
+<h3 id="org60d16e1"><span class="section-number-3">3.1</span> Example B: the "survey" database</h3>
 <div class="outline-text-3" id="text-3-1">
 <blockquote>
 <p>
-Question 4: Using the database
+Question 5: Using the database
 </p>
 
 <ol class="org-ol">
@@ -687,19 +635,19 @@ Question 4: Using the database
 </div>
 </div>
 
-<div id="outline-container-orgd62b277" class="outline-3">
-<h3 id="orgd62b277"><span class="section-number-3">3.2</span> SQL: The language of the relational algebra</h3>
+<div id="outline-container-org594f164" class="outline-3">
+<h3 id="org594f164"><span class="section-number-3">3.2</span> SQL: The language of the relational algebra</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-There is a standard, but particular products may or may not adhere to it
+There is an SQL standard, but particular products may or may not adhere to it
 perfectly. The <a href="https://sqlite.org/lang_select.html">sqlite website</a> documents the particular syntax understood by
 sqlite.
 </p>
 </div>
 
 
-<div id="outline-container-org13c23fc" class="outline-4">
-<h4 id="org13c23fc"><span class="section-number-4">3.2.1</span> Single-table queries</h4>
+<div id="outline-container-org111fb9d" class="outline-4">
+<h4 id="org111fb9d"><span class="section-number-4">3.2.1</span> Single-table queries</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <div class="org-src-container">
 <pre class="src src-sql"><span style="color: #859900;">SELECT</span> col-expr [<span style="color: #859900;">AS</span> <span style="color: #859900;">name</span>], ... 
@@ -721,7 +669,7 @@ Note that the result is always a table.
 
 <blockquote>
 <p>
-Question 5: Selecting, computing, and grouping
+Question 6: Selecting, computing, and grouping
 </p>
 
 <ol class="org-ol">
@@ -749,8 +697,8 @@ scientists?</li>
 </div>
 </div>
 
-<div id="outline-container-org9c8c13e" class="outline-4">
-<h4 id="org9c8c13e"><span class="section-number-4">3.2.2</span> Multiple table queries</h4>
+<div id="outline-container-orgb86c103" class="outline-4">
+<h4 id="orgb86c103"><span class="section-number-4">3.2.2</span> Multiple table queries</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <p>
 Union, Intersection, Difference:
@@ -792,7 +740,7 @@ the latter case, you might need to rename it with <code>AS</code>.
 
 <blockquote>
 <p>
-Question 6: Multiple-table queries
+Question 7: Multiple-table queries
 </p>
 
 <ol class="org-ol">
@@ -821,33 +769,27 @@ What on earth is this (and why is there an off-by-one error)?:
 </div></li>
 </ol>
 </blockquote>
-
-
-<ol class="org-ol">
-<li>Divide!</li>
-
-<li>Finding paths in graphs!</li>
-</ol>
 </div>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orgea64dc0" class="outline-2">
-<h2 id="orgea64dc0"><span class="section-number-2">4</span> Data modelling</h2>
+<div id="outline-container-org7a9e940" class="outline-2">
+<h2 id="org7a9e940"><span class="section-number-2">4</span> Data modelling: Getting data into databases</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org7b82972" class="outline-3">
-<h3 id="org7b82972"><span class="section-number-3">4.1</span> NULLs</h3>
+<div id="outline-container-org23b308d" class="outline-3">
+<h3 id="org23b308d"><span class="section-number-3">4.1</span> NULLs</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
-<code>NULL</code> s are not great. 
+<code>NULL</code> s are not great. They often arise because a “proper” table has been
+“pivoted” so that the values of one column have become column headers.
 </p>
 
 <blockquote>
 <p>
-Question 7:
+Question 8:
 </p>
 
 <p>
@@ -863,13 +805,46 @@ Use Excel (or equivalent) to create a version without nulls.
 </div>
 
 
-<div id="outline-container-org6c5a9f3" class="outline-3">
-<h3 id="org6c5a9f3"><span class="section-number-3">4.2</span> Normalisation</h3>
+<div id="outline-container-orga31087c" class="outline-3">
+<h3 id="orga31087c"><span class="section-number-3">4.2</span> Normalisation of tables</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
-"Normal forms" (there are many) describe ways in which relations and databases
-avoid containing redundant information. 
+In this section, we talk about the real world that is represented by tables. In
+the real-world there are often restrictions on the tuples (that is, rows) that
+<i>could</i>, in principle, occur in a relation. 
 </p>
+
+<p>
+“Normal forms” describe ways in which relations and databases avoid containing
+redundant information and conforming to the real-world restrictions.
+</p>
+
+<p>
+Frustratingly, there are many normal forms. Specifically, there is first,
+second, third, fourth, and fifth normal form, plus two others. I shall describe
+the two others.
+</p>
+
+
+<blockquote>
+<p>
+Question 9: Look at the example house-prices table (the original or your new
+version). 
+</p>
+
+<ol class="org-ol">
+<li>Is there any subset of columns that uniquely identifies &#x2013; in</li>
+</ol>
+<p>
+principle &#x2013; each row?
+</p>
+
+<ol class="org-ol">
+<li>What is the smallest subset that does so?</li>
+
+<li>Are there any others?</li>
+</ol>
+</blockquote>
 
 <p>
 A <i>candidate key</i> is a set of attributes such that:
@@ -885,43 +860,107 @@ A <i>superkey</i> is some superset of the attributes of a <i>candidate key</i>.
 </p>
 
 <p>
-Note: Some people say <i>key</i> for candidate key, some people use <i>key</i> to mean
+<b>Note:</b> Some people say <i>key</i> for candidate key, some people use <i>key</i> to mean
 superkey. 
 </p>
 
 <p>
 Sometimes some set of values in a table depends on some other values. Suppose
-\(K\) is a set of attributes, and \(D\) some other set of attributes. 
+\(A\) is a set of attributes, and \(K\) some other set of attributes. 
 </p>
 
 <p>
-A table is in <i>Boyce-Codd normal form</i> if, for any legal tuple, the values of
-\(D\) are determined entirely by the values of \(K\), then \(K\) is a superkey.
+If \(K\) is a candidate key, then the values in \(A\) must depend entirely upon \(K\),
+becuase the whole tuple does. The following defition goes the other way:
+</p>
+
+<p>
+A relation is in <i>Boyce-Codd normal form</i> if, whenever, for any legal tuple, the
+values of \(A\) are determined entirely by the values of \(K\), then \(K\) is a
+superkey.
 </p>
 
 <blockquote>
 <p>
-Question 7: Is the example in Boyce-Codd normal form? If not, fix it so that it
-is. (In general, this will require you to “split” it in 
+Question 10: Boyce-Codd normal form.
+</p>
+
+<ol class="org-ol">
+<li>Is the original house-price table in Boyce-Codd normal form?</li>
+
+<li>Is your version without nulls in Boyce-Codd normal form? If not, fix it so
+that it is. (This may require splitting it into more than one table.)</li>
+</ol>
+
+<p>
+Note: If you like, you can stick with Excel here (or R, or Python). Just make sure you
+have a nice copy of your final relations that you can save as a csv.
 </p>
 </blockquote>
 
-
-
 <p>
-A <i>foreign key</i> is a set of attributes that is a key in some other table.
+Example C: Open up <a href="data/household-income-by-msoa.csv">data/household-income-by-msoa.csv</a>
 </p>
 
+<blockquote>
+<p>
+Question 11: More normalisation
+</p>
 
+<ol class="org-ol">
+<li>Is this table in Boyce-Codd normal form? If not, fix it so that it is.</li>
+</ol>
+</blockquote>
+</div>
+</div>
 
+<div id="outline-container-org95ccf4b" class="outline-3">
+<h3 id="org95ccf4b"><span class="section-number-3">4.3</span> Normalisation of databases</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Sometimes tables are obviously connected to each other.
+</p>
 
+<p>
+A <i>foreign key</i> is a set of attributes that is a candidate key in some other
+table. Usually, when we identify foreign keys, we also mean to assert that every
+tuple from a table with a foreign key has that corresponding tuple actually
+present in the other table. This is called <i>referential integrity</i>.
+</p>
 
+<blockquote>
+<p>
+Question 12: Look at the collection of tables you have built. In
+which tables are there foriegn keys?
+</p>
+</blockquote>
 
-<ul class="org-ul">
-<li>constraints</li>
+<p>
+A relation is in <i>Domain-Key normal form</i> if every real-world restriction is a
+consequence of the definitions of keys and domains.
+</p>
+</div>
+</div>
 
-<li>normal forms</li>
-</ul>
+<div id="outline-container-orgf7fb260" class="outline-3">
+<h3 id="orgf7fb260"><span class="section-number-3">4.4</span> Building a database</h3>
+<div class="outline-text-3" id="text-4-4">
+<blockquote>
+<p>
+Question 13: The last exercise
+</p>
+
+<ol class="org-ol">
+<li>Build an sqlite database from the tables you have constructed. Use the DB
+manager application. (Most RDBMS don't let you play fast and loose with types
+and schema &#x2013; sqlite does.)</li>
+
+<li>What is the average house price in 2009 by Government Office Region?</li>
+
+<li>For each GOR, what is its percentage increase in house-price:income
+ratio between 1996 and 2009?</li>
+</ol>
+</blockquote>
 </div>
 </div>
 </div>
@@ -929,7 +968,7 @@ A <i>foreign key</i> is a set of attributes that is a key in some other table.
 <div id="postamble" class="status">
 <p class="date">Date: 27 November 2017</p>
 <p class="author">Author: James Geddes</p>
-<p class="date">Created: 2017-11-26 Sun 11:20</p>
+<p class="date">Created: 2017-11-26 Sun 12:55</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
