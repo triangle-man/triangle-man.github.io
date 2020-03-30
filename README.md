@@ -1,5 +1,5 @@
 # triangle-man.github.io
 
 Personal website for James Geddes
-All material is copyright (c) James Geddes 2017, except where noted otherwise.
+All material copyright (c) James Geddes 2017–2020, except where noted otherwise.
 
