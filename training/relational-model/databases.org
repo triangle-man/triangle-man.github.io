@@ -1,0 +1,64 @@
+#+TITLE: The relational model
+#+AUTHOR: James Geddes
+#+DATE: 27 November 2017
+
+#+startup: showall
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation]
+#+BEAMER_THEME: TuringLight
+#+OPTIONS: toc:nil
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 :ETC
+
+* [[https://triangle-man.github.io]]
+
+#+ATTR_LaTeX: :width 0.4\textwidth
+[[./figs/website.jpg]]
+ 
+
+* Acknowledgements
+
+The ~survey.db~ database was downloaded from Software Carpentry,
+https://swcarpentry.github.io/sql-novice-survey/, whence it was provided under a
+CC BY license (https://creativecommons.org/licenses/by/4.0/).
+
+
+* Things I am not
+
+** A knowledge representation researcher
+
+** A professional database engineer
+
+** A database /system/ designer
+
+
+* Today
+
+** Introduction
+
+** The conceptual model
+
+** SQL and the logical model: Getting data out of databases 
+
+** Data modelling: Getting data into databases
+
+
+* Things we haven't talked about
+
+- DDL (Data Description Language)
+- Writing constraints into the database
+- PostgreSQL, MySQL, Oracle, Microsoft SQL Servier, ...
+- R or Python connectivity; or languages built in to databases
+- Object-relational models, NoSQL, graph databases, ...
+
+
+
+
+
+* Further reading
+
+Books
+
+- /Database in Depth/, C. J. Date
+- /Relational Database Principles/, Colin Ritchie 
+- /SQL for Smarties/, Joe Celko
