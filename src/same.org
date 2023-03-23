@@ -1,0 +1,258 @@
+#+author: James Geddes
+#+date: <2023-03-23 Thu>
+#+title: Python Objects
+
+#+begin_quote
+“Then I ought to have said ‘That's what the /song/ is called’?”  Alice
+corrected herself. “No, you oughtn’t: that's quite another thing! The
+/song/ is called /‘Ways And Means’/: but that’s only what it’s
+/called/, you know!”
+
+“Well, what /is/ the song, then?” said Alice, who was by this time
+completely bewildered. “I was coming to that,” the Knight said. “The
+song really is /‘A-sitting On A Gate’/: and the tune’s my own
+invention.”
+@@html:<footer>@@ Lewis Carroll, /Through the Looking-Glass/ @@html:</footer>@@
+#+end_quote
+
+Maybe it’s just me but I feel like concepts in programming languages
+ought to mean something and that the documentation for those languages
+ought to explain what they mean. Python and I do not get along in this
+regard.
+
+Take, just as an example, the concept of /object/. The /Python Language
+Reference/[fn:1] has this to say about objects:
+#+begin_quote
+/Objects/ are Python's abstraction for data. All data in a Python
+program is represented by objects or by relations between objects. (In
+a sense [...] code is also represented by objects.)
+@@html:<footer>@@ /The Python Language Reference/, Chapter 3, /Data model/,
+Section 3.1, /Objects, values, and types/ @@html:</footer>@@
+#+end_quote
+
+So objects sound pretty fundamental.[fn:2] And yet I have to say that
+I find the ensuing explanation in the /Language Reference/ remarkably
+unedifying.
+
+I've noticed two kinds of reactions when I talk about this. People who
+actually know computer science tell me that I should read chapter 18
+of Pierce[fn:3] or maybe even all of Abadi and Cardelli.[fn:4] Those
+people are right! I should read those things. I /will/ read those
+things, probably, right after I am done being annoyed at the /Python
+Language Reference/, and then I will come back here and write about
+them.
+
+People who use Python, on the other hand, say, it's just an object,
+you know? You call methods on them, they're great, you don't have to
+know what's going on inside. I explain to those people that it's
+/important/ to know what's going on inside, and then they look at
+their watches and say things like, well, I really must be getting back
+to /writing actual, useful code/ in /the most popular programming
+language in the world/, and frankly that is just unfair.
+
+Anyway, what I'd like to do here is attempt to say just what I find
+unsatisfying in the /Language Reference/. I'm not sure why. Maybe so
+you will find it unsatisfying too?
+   
+Here's what the /Reference/ goes on to say about objects:
+#+begin_quote
+Every object has an identity, a type and a value. 
+#+end_quote
+
+It would have been nice to read a definition at this point. This is
+more like the sort of thing you write just after a definition. But
+it's close. One could imagine that what is meant is something like,
+“Every object has an identity, a type and a value /and nothing else/.”
+Perhaps what was meant is that there are no further facts about an
+object /other than/ its identity, type, and value. If that's the right
+interpretation then, in order to understand objects, it would suffice
+to understand these three components. The /Reference/ does indeed go
+on to talk about types, values, and identities but not in a way that
+helps.
+
+About identity, the Reference has this to say:
+#+begin_quote
+An object's /identity/ never changes once it has been created; you may
+think of it as the object's address in memory. The ~is~ operator
+compares the identity of two objects; the ~id()~ function returns an
+integer representing its identity.
+#+end_quote
+
+I am going to have to digress to complain about the italics. I realise
+I am going to sound old and curmudgeonly but in my defence I sounded
+old and curmudgeonly when I was young, too. The thing is, there /is/ a
+good reason for “identity” to be in italics. It is common practice in
+technical writing to italicise a new term when it is first introduced
+and, indeed, this is the first time we've come across “identity,”
+apart from the previous quote. But it iss /good/ practice to make sure
+that the introduction actually tells you what the term /means/. Or at
+least gives you sufficient information to make a decent guess. This
+isn't that! What this is, is some fact /about/ identity. Is it the
+only fact? Is it the defining fact? I don't know!
+
+It's as if I had said, “Examples of animals are cats, dogs, and
+arklethropes. An /arklethrope/ is never more than one metre high.”
+This doesn't tell me what an arklethrope is! All I've learned is that
+it's neither a cat, nor a dog; and that if what I have is more than
+one metre high then I haven't got an arklethrope. No reason to put
+that in italics: I am just as confused about arklethropes as before.
+
+It’s possible, I supppose, that the /Reference/ assumes that the
+reader already has a view of “identity” as a concept and that it is
+this idea that is intended. But I am not sure that I, for one, do have
+a clear idea of what “identity” means. The /Stanford Encyclopedia of
+Philosophy/ has quite a long [article on
+identity](https://plato.stanford.edu/entries/identity/) and so it's
+clearly not a trivial topic.
+
+What we do know, at any rate, is that if you have an object at one
+time, and the very same object at another time, then their
+“identities” will be the same. (Presumably either the value or the
+type might be different.)
+
+It's not clear how to get /hold/ of an identity. We're allowed to
+“think of” it as the object's address in memory---but that doesn't
+mean that's what it is. One might imagine that you get hold of the
+identity with ~id()~ but in fact what that gives you is “an integer
+/representing/ the identity” (emphasis added); presumably that is not
+the same as the identity itself otherwise the /Reference/ would have
+said so.
+
+Crucially, however, it /is/ apparently possible to check whether two
+objects have the same identity. The operator ~is~ does this. (I guess
+that it returns ~True~ if the objects have the same identity and
+~False~ otherwise.)
+
+I'm not convinced that the following makes any sense but perhaps the
+reason that you can’t get hold of an identity and must, instead, realy
+on the ~is~ operator, is that it's unclear what kind of thing it would
+be if you did get hold of it. For example, what if it were an obect?
+(After all, the /Reference/ does say that everything is an object.)
+Well, suppose you had two objects and were wondering whether they were
+the same object. The way to do that---I guess?---is to see whether
+they have the same identity. So you obtain their identities and ask,
+are these the same identity? But how do you answer /that/ question? If
+the identities are objects, then you are supposed to obtain /their/
+identities and ask are these the same object? There is an ininfite
+regress.
+
+I'm going to assume that identities are not a thing-in-the-language:
+it doesn't make sense to ask what they are. Sure, in CPython you can
+get hold of an integer “representing” the identity by using ~id()~---but
+you probably shouldn't. What you can say, in Python, is just whether
+two objects are /the very same/ object or not.
+
+The Reference talks about types next but I am going to skip ahead to
+the point where it discusses values and return to types shortly.
+
+I think I know roughly what values are in other languages. I think of
+values as elements of sets. For example 3---the number three---is that
+element of the set of natural numbers. In functional languages, it is
+values---not objects---that are the fundamental tokens of
+computation. Two values are the same just in case they are the same
+value. Values do not change: if they did change, they would be a
+different value. Values are referentially transparent: One 3 is just
+as good as another 3. If I replace 3 in this part of my program with
+“another” 3 nothing is, or can be, observed to be different.
+
+With that context, here's the /Reference/ on values:
+#+begin_quote
+The /value/ of some objects can change.
+#+end_quote
+Again, this is not a definition! At best it is additional
+information. It's not like we get a definition, either: this is
+basically all that is said about values. (There's a further paragraph
+about which objects' values can change and which can't but I don't
+think it sheds any light on what values /are/.)
+
+If an object “has” a value, what /is/ that value? Just as with
+identity, there doesn't seem to be any way to get hold of a “bare”
+value. Consider ~3~---I mean the thing you get when Python reads
+"~3~". That's not a value, it's an object. Look, it has a type and
+everything:
+#+begin_src python :results output :exports both
+  print(type(3))
+#+end_src
+Presumably the value of the object denoted ~3~ is the value 3? There
+seems to be no way so far to understand what that means.
+
+The /Reference/ tells us that the value of some objects can
+change. (Presumably the object ~3~ is not one of those objects!) In
+other words, the same object can at one time “have” one value and at
+another time “have” a different value.[fn:5] Can you tell? Probably
+not! First of all, we haven't yet been given any way to decide whether
+the values of two objects are the same value. Even if we were,
+there is a deeper problem, which is that you can't compare an object
+at one time t_1 with the same object at some later time t_2 because by
+the time you get to t_2 you no longer “have” the object at t_1. You
+could (perhaps) make a /copy/ at t_1 and, at t_2, compare the copy
+with the original. But then you would be comparing /different/ objects
+at t_2.
+
+So far, we can tell whether two objects are the same object (or
+not). They have values but it's unclear what that means. What about
+types? The /Reference/ says:
+#+begin_quote
+An object’s type determines the operations that the object supports
+(e.g., “does it have a length?”) and also defines the possible values
+for objects of that type. The ~type()~ function returns an object’s
+type (which is an object itself). Like its identity, an object’s type
+is also unchangeable. [1]
+#+end_quote
+Look, my mental model of Python is, or at least was up to now, that a
+Python program is a sequence of statements and control-flow
+structures, and that statements are essentially class or method
+definitions, assignments, or method calls. This being an
+object-oriented language you'd think method calls would be the single
+most important construct. Where are they in the /Reference/? They're
+in chapter 6, /Expressions/, section 6.3, /Primaries/, subsection
+6.3.4, /Calls/. Okay!
+
+I guess the object that is the type of an object has something to say
+about the available method calls: those being the “operations that the
+object supports.”
+
+The footnote is in the original. It reads:
+#+begin_quote
+It is possible in some cases to change an object’s type, under certain
+controlled conditions. It generally isn’t a good idea though, since it
+can lead to some very strange behaviour if it is handled incorrectly.
+#+end_quote
+
+I don't know what this means? Apparently the type of an object is
+/not/ unchangeable? At least, not always?
+
+I ... give up. Having written all the above I'm no longer sure what it
+is that I am trying to understand. What I'd like, I suppose, is a
+coherent model of Python objects which is consistent with the reality
+of Python implementations. Reading the /Reference/ did not help! I
+think I'm left with either reading some other document or thinking
+harder.
+
+
+[fn:1] All of the quotes are from /The Python Language Reference/,
+section 3, “Data model”, subsection 3.1, “Objects, values and types”.
+
+[fn:2] I am not clear what is meant by “relations between objects.” I
+think the most likely interpretation is “references,” in the sense
+that, in a running program, most objects will contain references to
+other objects and this structure is part of what constitutes the data
+in the program.
+
+[fn:3] /Types and Programming Languages/, Benjamin C. Pierce. Chapter
+18 is “Case Study: Imperative Objects,” and chapter 32 is, “Case
+Study: Purely Functional Objects.”
+
+[fn:4] /A Theory of Objects/, Martin Abadi and Luca Cardelli.
+
+[fn:5] The alternative reading is that the object “has” the same value
+but the /value/ has changed. However, I'm pretty sure that the entire
+point of values is that they don't suffer from the same philosophical
+problems of identity as objects: values just are.
+
+[fn:6] I do think there's a distinction to be made between, on the one
+hand, “explaining” the meaning of some concept by pointing at a data
+structure in C (which I don't like) and, on the other hand, defining
+the effect of some operation by saying, “the effect is /just as if/ the
+following algorithm had been run” (which seems a reasonable way of
+giving meaning to some operation).
