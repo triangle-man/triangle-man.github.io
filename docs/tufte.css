@@ -1,9 +1,9 @@
 @charset "UTF-8";
 
-/* Adapter from tufte.css
+/* Adapted from tufte.css
    Notes on using with org mode
    - blockquotes. Wrap the attribution in @@html:<footer>@@ tags.
-
+*/
 
 
 /* Import ET Book styles
