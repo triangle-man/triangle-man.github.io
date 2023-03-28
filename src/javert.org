@@ -23,12 +23,6 @@ than I myself can think! -- the decisions I will make in the future?
 Whence came these advances in cognitive science? Have I woken in a new
 world?
 
-**Valjean**: I confess I do not understand what you mean by
-“statistical regularities,” and why these should be different from
-regular regularities. But tell me---from which theory of the mind are
-you working and what characteristics have you used to determine the
-parameters of that theory in my case?
-
 **Javert**: No, monsieur, you misunderstand. I mean to say that we in the
 judicial system have a great deal of experience with prisoners and
 their applications for parole. Suspecting the existence of statistical
@@ -39,6 +33,12 @@ subsequent behaviour when released on license. Our supposition was
 indeed rewarded---I am informed that the probability of a type 1
 error is less than five percent!---and we now use these regularities
 to inform our assessment of the risk of re-offending.
+
+**Valjean**: I confess I do not understand what you mean by
+“statistical regularities,” and why these should be different from
+regular regularities. But tell me---from which theory of the mind are
+you working and what characteristics have you used to determine the
+parameters of that theory in my case?
 
 **Javert**: Encore, you misunderstand, and I begin to suspect it is
 deliberate. Monsieur, we have no “theory of the mind”: none is needed
@@ -107,7 +107,7 @@ the ways that we have proven to matter, rather like you.
 **Valjean**: People “like me” are criminals?
 
 **Javert**: Monsieur, you say it as if it is somehow a bad thing to
-say. Yes!  You lot—I apologise, you have riled me---I mean, people
+say. Yes! You lot—I apologise, you have riled me---I mean, people
 similar to you tend to be recidivists. I am sorry but that is how it
 is. The evidence cannot be denied.
 
