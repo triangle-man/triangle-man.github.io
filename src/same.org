@@ -58,10 +58,10 @@ to /writing actual, useful code/ in /the most popular programming
 language in the world/, and frankly that is just unfair.
 
 Anyway, what I’d like to do here is attempt to say just what I find
-unsatisfying in the /Language Reference/. I’m not sure why. Maybe so
+unsatisfying in the /Language Reference/. I am not sure why. Maybe so
 you will find it unsatisfying too?
    
-Here’s what the /Reference/ goes on to say about objects:
+@@html:<span class="newthought">@@Here’s what@@html:</span>@@ the /Reference/ goes on to say about objects:
 #+begin_quote
 Every object has an identity, a type and a value.
 @@html:<footer>@@ /The Python Language Reference/ @@html:</footer>@@
