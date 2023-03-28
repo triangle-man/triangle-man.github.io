@@ -180,7 +180,7 @@ think it sheds any light on what values /are/.)
 If an object “has” a value, what /is/ that value? Just as with
 identity, there doesn't seem to be any way to get hold of a “bare”
 value. Consider ~3~---I mean the thing you get when Python reads
-"~3~". That's not a value, it's an object. Look, it has a type and
+“~3~”. That's not a value, it's an object. Look, it has a type and
 everything:
 #+begin_src python :results output :exports both
   print(type(3))
@@ -220,7 +220,7 @@ Python program is a sequence of statements and control-flow
 structures, and that statements are essentially class or method
 definitions, assignments, or method calls. This being an
 object-oriented language you'd think method calls would be the single
-most important construct. Where are they in the /Reference/? They're
+most important construct. Where are they in the /Reference/? They’re
 in chapter 6, /Expressions/, section 6.3, /Primaries/, subsection
 6.3.4, /Calls/. Okay!
 
@@ -239,10 +239,10 @@ can lead to some very strange behaviour if it is handled incorrectly.
 I don't know what this means? Apparently the type of an object is
 /not/ unchangeable? At least, not always?
 
-I ... give up. Having written all the above I'm no longer sure what it
-is that I am trying to understand. What I'd like, I suppose, is a
+I ... give up. Having written all the above I’m no longer sure what it
+is that I am trying to understand. What I’d like, I suppose, is a
 coherent model of Python objects which is consistent with the reality
 of Python implementations. Reading the /Reference/ did not help! I
-think I'm left with either reading some other document or thinking
+think I am left with either reading some other document or thinking
 harder.
 
