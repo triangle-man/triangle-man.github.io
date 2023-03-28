@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-03-28 Tue 11:08 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Python Objects</title>
+<meta name="author" content="James Geddes" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="tufte.css" type="text/css"/>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Python Objects</h1>
+<blockquote>
+<p>
+“Then I ought to have said ‘That's what the <i>song</i> is called’?”  Alice
+corrected herself. “No, you oughtn’t: that's quite another thing! The
+<i>song</i> is called <i>‘Ways And Means’</i>: but that’s only what it’s
+<i>called</i>, you know!”
+</p>
+
+<p>
+“Well, what <i>is</i> the song, then?” said Alice, who was by this time
+completely bewildered. “I was coming to that,” the Knight said. “The
+song really is <i>‘A-sitting On A Gate’</i>: and the tune’s my own
+invention.”
+<footer> Lewis Carroll, <i>Through the Looking-Glass</i> </footer>
+</p>
+</blockquote>
+
+<p>
+<span class="newthought">Maybe it’s just me</span>
+but I feel that concepts in programming languages ought to mean
+something and that the documentation for those languages ought to
+explain what they mean. In this regard, Python and I do not get along.
+</p>
+
+<p>
+Take the concept of an <i>object</i>. The <i>Python Language Reference</i><label for="fn-1" class="margin-toggle sidenote-number">
+</label><input type="checkbox" id="fn-1" class="margin-toggle"/><span class="sidenote">
+All of the quotes are from <i>The Python Language Reference</i>, section 3,
+“Data model”, subsection 3.1, “Objects, values and types”.</span> has this
+to say about objects:
+</p>
+<blockquote>
+<p>
+<i>Objects</i> are Python's abstraction for data. All data in a Python
+program is represented by objects or by relations between objects. (In
+a sense [&#x2026;] code is also represented by objects.)
+<footer> <i>The Python Language Reference</i> </footer>
+</p>
+</blockquote>
+
+<p>
+So objects sound pretty fundamental.<label for="fn-2" class="margin-toggle sidenote-number">
+</label><input type="checkbox" id="fn-2" class="margin-toggle"/><span class="sidenote"> I am not clear what is meant
+by “relations between objects.” I think the most likely interpretation
+is “references,” in the sense that, in a running program, most objects
+will contain references to other objects and this structure is part of
+what constitutes the data in the program.</span> And yet the subsequent
+explanation is to my mind wholly unedifying.
+</p>
+
+<p>
+I’ve noticed two kinds of reactions when I talk about this. People who
+actually know computer science tell me that I should read chapter 18
+of Pierce<label for="fn-3" class="margin-toggle sidenote-number">
+</label><input type="checkbox" id="fn-3" class="margin-toggle"/><span class="sidenote"> <i>Types and Programming Languages</i>, Benjamin
+C. Pierce. Chapter 18 is “Case Study: Imperative Objects,” and chapter
+32 is, “Case Study: Purely Functional Objects.”</span> or maybe even all of
+Abadi and Cardelli<label for="fn-4" class="margin-toggle sidenote-number">
+</label><input type="checkbox" id="fn-4" class="margin-toggle"/><span class="sidenote"> <i>A Theory of Objects</i>, Martin Abadi and Luca
+Cardelli.</span> Those people are right! I should read those things. I
+<i>will</i> read those things, probably, right after I am done being
+annoyed at the <i>Python Language Reference</i>, and then I will come back
+here and write about them.
+</p>
+
+<p>
+People who use Python, on the other hand, say, it’s just an object,
+you know? You call methods on them, they're great, you don’t have to
+know what’s going on inside. I explain to those people that it’s
+<i>important</i> to know what’s going on inside, and then they look at
+their watches and say things like, well, I really must be getting back
+to <i>writing actual, useful code</i> in <i>the most popular programming
+language in the world</i>, and frankly that is just unfair.
+</p>
+
+<p>
+Anyway, what I’d like to do here is attempt to say just what I find
+unsatisfying in the <i>Language Reference</i>. I’m not sure why. Maybe so
+you will find it unsatisfying too?
+</p>
+
+<p>
+Here’s what the <i>Reference</i> goes on to say about objects:
+</p>
+<blockquote>
+<p>
+Every object has an identity, a type and a value.
+<footer> <i>The Python Language Reference</i> </footer>
+</p>
+</blockquote>
+
+<p>
+It sure would have been nice to read a definition at this point! This
+is more like the sort of thing you write just after a definition. But,
+okay, it’s close. One could imagine that what is meant is something
+like, “Every object has an identity, a type and a value <i>and nothing
+else</i>.”  Perhaps what was meant is that there are no further facts
+about an object <i>other than</i> its identity, type, and value. If that’s
+the right interpretation then, in order to understand objects, it
+would suffice to understand these three components. And the
+<i>Reference</i> does indeed go on to talk about types, values, and
+identities.
+</p>
+
+<p>
+About identity, the <i>Reference</i> has this to say:
+</p>
+<blockquote>
+<p>
+An object’s <i>identity</i> never changes once it has been created; you may
+think of it as the object’s address in memory. The <code>is</code> operator
+compares the identity of two objects; the <code>id()</code> function returns an
+integer representing its identity.
+<footer> <i>The Python Language Reference</i> </footer>
+</p>
+</blockquote>
+
+<p>
+Look, I am going to have to digress to complain about the italics. I
+realise I am going to sound old and curmudgeonly but in my defence I
+sounded old and curmudgeonly when I was young, too. The thing is,
+there <i>is</i> a good reason for “identity” to be in italics. It is common
+practice in technical writing to italicise a new term when it is first
+introduced and, indeed, this is the first time we’ve come across
+“identity,” apart from the previous quote. But also it is <i>good</i>
+practice to make sure that the introduction actually tells you what
+the term <i>means</i>. Or at least gives you sufficient information to make
+a decent guess. This isn’t that! What this is, is some fact <i>about</i>
+identity. Is it the only fact? Is it the defining fact? I don’t know!
+</p>
+
+<p>
+It’s as if I had said, “Examples of animals are cats, dogs, and
+arklethropes. An <i>arklethrope</i> is never more than one metre high.”
+That doesn’t tell me what an arklethrope is! All I’ve learned is that
+it’s neither a cat, nor a dog; and that if what I have is more than
+one metre high then I haven’t got an arklethrope. No reason to put
+that in italics: I am just as confused about arklethropes as before.
+</p>
+
+<p>
+It’s possible, I supppose, that the <i>Reference</i> assumes that the
+reader already has a view of identity as a concept and that it is this
+idea that is intended. But I am not sure that I, for one, do have a
+clear idea of what identity means. The <i>Stanford Encyclopedia of
+Philosophy</i> has quite a long <a href="https://plato.stanford.edu/entries/identity/">article on identity</a> and so it’s clearly
+not a trivial topic.
+</p>
+
+<p>
+What we do know, at any rate, is that if you have an object at one
+time, and the very same object at another time, then their
+“identities” will be the same. (Presumably either the value or the
+type might be different.)
+</p>
+
+<p>
+It’s not clear how to get <i>hold</i> of an identity. We’re allowed to
+“think of” it as the object’s address in memory&#x2014;but that doesn’t
+mean that’s what it is. If that’s what it was, we wouldn’t have to
+think of it that way, that’s just what it would be. It might happen to
+the address in memory in some implementation but not in
+another. Still, one might imagine that you get hold of the identity,
+in whatever form the implementation uses, with <code>id()</code>; but in fact
+what that gives you is “an integer <i>representing</i> the identity”
+(emphasis added); again, presumably that is not the same as the
+identity itself otherwise the <i>Reference</i> would have said so. 
+</p>
+
+<p>
+Crucially, however, it <i>is</i> apparently possible to check whether two
+objects have the same identity. The operator <code>is</code> does this. (I guess
+that it returns <code>True</code> if the objects have the same identity and
+<code>False</code> otherwise.)
+</p>
+
+<p>
+I’m not convinced that the following makes any sense but perhaps the
+reason that you can’t get hold of an identity and must, instead, rely
+on the <code>is</code> operator, is that it’s unclear what kind of thing it would
+be if you did get hold of it. For example, what if it were an obect?
+(After all, the <i>Reference</i> does say that everything is an object.)
+Well, suppose you had two objects and were wondering whether they were
+the same object. The way to do that&#x2014;I guess?&#x2014;would be to see
+whether they have the same identity. So you obtain their identities
+and ask, are these the same identity? But how do you answer <i>that</i>
+question? If the identities are objects, then you are supposed to
+obtain <i>their</i> identities and ask are these the same object? There is
+an infinite regress.
+</p>
+
+<p>
+I’m going to assume that identities are not a thing-in-the-language:
+it doesn’t make sense to ask what they are. Sure, in CPython you can
+get hold of an integer “representing” the identity by using <code>id()</code>&#x2014;but
+you probably shouldn’t. What you can say, in Python, is just whether
+two objects are <i>the very same</i> object or not.
+</p>
+
+<p>
+The Reference talks about types next but I am going to skip ahead to
+the point where it discusses values and return to types shortly.
+</p>
+
+<p>
+I think I know roughly what values are in other languages. I think of
+values as elements of sets. For example 3&#x2014;the number three&#x2014;is that
+element of the set of natural numbers. In functional languages, it is
+values&#x2014;not objects&#x2014;that are the fundamental tokens of
+computation. Two values are the same just in case they are the same
+value. Values do not change: if they did change, they would be a
+different value. Values are referentially transparent: One 3 is just
+as good as another 3. If I replace 3 in this part of my program with
+“another” 3 nothing is, or can be, observed to be different.
+</p>
+
+<p>
+With that context, here’s the <i>Reference</i> on values:
+</p>
+<blockquote>
+<p>
+The <i>value</i> of some objects can change.
+<footer> <i>The Python Language Reference</i> </footer>
+</p>
+</blockquote>
+<p>
+Again, this is not a definition! At best it is additional
+information. It’s not like we get a definition, either: this is
+basically all that is said about values. (There’s a further paragraph
+about which objects’ values can change and which can’t but I don’t
+think it sheds any light on what values <i>are</i>.)
+</p>
+
+<p>
+If an object “has” a value, what <i>is</i> that value? Just as with
+identity, there doesn’t seem to be any way to get hold of a “bare”
+value. Consider <code>3</code>&#x2014;I mean the thing you get when Python reads
+“~3~”. That’s not a value, it’s an object. Look, it has a type and
+everything:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #6c71c4;">print</span>(<span style="color: #6c71c4;">type</span>(3))
+</pre>
+</div>
+
+<pre class="example">
+&lt;class 'int'&gt;
+</pre>
+
+
+<p>
+Presumably the value of the object denoted <code>3</code> is the value 3? There
+seems to be no way so far to understand what that means.
+</p>
+
+<p>
+The <i>Reference</i> tells us that the value of some objects can
+change. (Presumably the object <code>3</code> is not one of those objects!) In
+other words, the same object can at one time “have” one value and at
+another time “have” a different value.<label for="fn-5" class="margin-toggle sidenote-number">
+</label><input type="checkbox" id="fn-5" class="margin-toggle"/><span class="sidenote"> The alternative reading is
+that the object “has” the same value but the <i>value</i> has
+changed. However, I’m pretty sure that the entire point of values is
+that they don’t suffer from the same philosophical problems of
+identity as objects: values just are.</span> Can you tell? Probably not!
+First of all, we haven’t yet been given any way to decide whether the
+values of two objects are the same value. Even if we were, there is a
+deeper problem, which is that you can’t compare an object at one time
+t<sub>1</sub> with the same object at some later time t<sub>2</sub> because by the time
+you get to t<sub>2</sub> you no longer “have” the object at t<sub>1</sub>. You could
+(perhaps) make a <i>copy</i> at t<sub>1</sub> and, at t<sub>2</sub>, compare the copy with the
+original. But then you would be comparing <i>different</i> objects at t<sub>2</sub>.
+</p>
+
+<p>
+So far, we can tell whether two objects are the same object (or
+not). They have values but it’s unclear what that means. What about
+types? The <i>Reference</i> says:
+</p>
+<blockquote>
+<p>
+An object’s type determines the operations that the object supports
+(e.g., “does it have a length?”) and also defines the possible values
+for objects of that type. The <code>type()</code> function returns an object’s
+type (which is an object itself). Like its identity, an object’s type
+is also unchangeable. [1]
+<footer> <i>The Python Language Reference</i> (footnote in original)</footer> 
+</p>
+</blockquote>
+<p>
+Look, my mental model of Python is, or at least was up to now, that a
+Python program is a sequence of statements and control-flow
+structures, and that statements are essentially class or method
+definitions, assignments, or method calls. This being an
+object-oriented language you’d think method calls would be the single
+most important construct. Where are they in the <i>Reference</i>? They’re
+in chapter 6, <i>Expressions</i>, section 6.3, <i>Primaries</i>, subsection
+6.3.4, <i>Calls</i>. Okay!
+</p>
+
+<p>
+I guess the object that is the type of an object has something to say
+about the available method calls: those being the “operations that the
+object supports.”
+</p>
+
+<p>
+The footnote is in the original. It reads:
+</p>
+<blockquote>
+<p>
+It is possible in some cases to change an object’s type, under certain
+controlled conditions. It generally isn’t a good idea though, since it
+can lead to some very strange behaviour if it is handled incorrectly.
+<footer> <i>The Python Language Reference</i> </footer>
+</p>
+</blockquote>
+
+<p>
+I don’t know what this means? Apparently the type of an object is
+<i>not</i> unchangeable? At least, not always?
+</p>
+
+<p>
+I &#x2026; give up. Having written all the above I’m no longer sure what it
+is that I am trying to understand. What I’d like, I suppose, is a
+coherent model of Python objects which is consistent with the reality
+of Python implementations. Reading the <i>Reference</i> did not help! I
+think I am left with either reading some other document or thinking
+harder.
+</p>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2023-03-23 Thu 00:00</p>
+<p class="author">Author: James Geddes</p>
+<p class="date">Created: 2023-03-28 Tue 11:08</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
