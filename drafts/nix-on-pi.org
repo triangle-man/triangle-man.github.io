@@ -1,0 +1,59 @@
+#+title: NixOS on a Raspberry Pi
+
+
+This note documents my attempts to get NixOS running on a Raspberry
+Pi. In the end, I hope to get a better understanding of whether I
+should change my package manager on MacOS from homebrew to nixpkgs.
+
+The first thing I did was to try out NixOS in a VM on my Mac. The Mac
+and the Pi are both running on AArch64 so it seemed a nice way to
+check things out.
+
+1. I downloaded the “minimal ISO image” for 64-bit ARM from the Nix
+   website.[fn:1]
+
+2. I bought and downloaded UTM, a GUI wrapper around QEMU, from the
+   Apple App store.
+
+3. In UTM, I choose “Create a New Virtual Machine,” then “Virtualize”
+   (rather than “Emulate”), then for Operating System I chose
+   “Custom” and gave the path to the downloaded ISO image from step
+   (1).
+
+4. Now there are settings for the hardware configuration. I picked 4
+   GB memory and four cores (my machine is an M1 Pro with 16 GB of
+   memory and 10 cores). I gave it 64 GB hard drive (the host is 1
+   TB). All of this roughly matches the Pi. I left all the other
+   settings on their defaults.
+
+Okay! That +installs and+ runs a NixOS system. Some comments:
+
+- I guess I'm logged in on console? (The username is ~nixos~.) The
+  font is an old one and missing characters. I am not sure which system
+  is rendering the letters.
+
+- UTM creates a file with the virtual machine in
+  #+begin_src 
+  ~/Library/Containers/UTM/Data/Documents
+  #+end_src
+
+- I deleted the ISO image. QEMU/UTM seemed to know where it had gone
+  but could not start. I thought installation meant one didn't need
+  the USB drive any longer?
+
+- I'm not entirely sure I've /installed/ NixOS? I think it’s booting
+  from the ISO image.
+
+- Oh, indeed I have not. In fact, I need to do a bunch of stuff,
+  including partitioning and formatting the drives. I need to get to a
+  stage where I can run ~nixos-install~.
+
+- Alright, I'll try the graphical installer...
+
+- Did that. Restarted, and we're back at the installer. In UTM,
+  “cleared” the CD/DVD “drive” and now we boot to NixOS proper.
+
+
+* Footnotes
+
+[fn:1] https://nixos.org/download.html#nix-install-macos 
