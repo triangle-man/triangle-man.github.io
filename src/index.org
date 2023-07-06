@@ -1,0 +1,9 @@
+#+TITLE: The Armchair Programmer
+#+author: James Geddes ([[https://github.com/triangle-man][triangle-man]])
+#+date: 28 March 2023
+
+- [[file:same.org][Python Objects]] :: What is an object? I don't know.
+- [[file:javert.org][On predictive justice]] :: A dialogue
+
+  
+
