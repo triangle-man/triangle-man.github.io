@@ -180,7 +180,7 @@ think it sheds any light on what values /are/.)
 If an object “has” a value, what /is/ that value? Just as with
 identity, there doesn’t seem to be any way to get hold of a “bare”
 value. Consider ~3~---I mean the thing you get when Python reads
-“~3~”. That’s not a value, it’s an object. Look, it has a type and
+~3~. That’s not a value, it’s an object. Look, it has a type and
 everything:
 #+begin_src python :results output :exports both
   print(type(3))
