@@ -81,17 +81,20 @@ And so the researchers go off, muttering, and ten years later they
 come back all tired and grimy from the connectionism mines with a
 machine that can tell whether a photograph contains a bird.  And the
 sceptics say, fine that is actually useful but still, most of the hard
-work was taking about 10,000 photographs and spending weeks manually
-classifying them into “bird” and “not-bird,” and then compressing them
-down with, admittedly, a clever choice of compression.  It's not
-really intelligence, it's mostly a trick.
+work was taking about 10,000 photographs and manually classifying each
+of them into “bird” and “not-bird,” and then compressing that down
+with, admittedly, a clever choice of compression.  It's not really
+intelligence, it's mostly a trick.
 
 To which the researchers say exasperatedly, come on, we've done
 reasoning, we've done perception, we've sort of done learning if you
 squint a little.  What more do you want?  And the sceptics say, what
 about C-3PO?
 
-
+The point is that neither playing chess, nor recognising birds, nor
+solving complicated logistics problems, nor diagnosing engine faults,
+nor any of the other myriad applications of AI research can “act, in a
+variety of circumstances, to achieve their goals.” 
  
 
 
