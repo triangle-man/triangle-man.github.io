@@ -5,7 +5,7 @@ how to solve a problem, it isn't AI anymore.[fn:: The earliest
 reference found by Quote Investigator was from 1971: “AI is a
 collective name for problems which we do not yet know how to solve
 properly by computer,” which was attributed to Betram Raphael by
-Donald Michie. [[https://quoteinvestigator.com/2024/06/20/not-ai/]]] AI
+Donald Michie. [[https://quoteinvestigator.com/2024/06/20/not-ai/]] ] AI
 researchers are often slightly irritated by this kind of thing and
 refer to it as “moving the goalposts:” some ability that was
 previously thought to require “real” intelligence is no longer thought
@@ -48,9 +48,8 @@ computers do something that, if you saw a person doing it, you'd say,
 were interested in figuring out how something could be intelligent,
 you might say what kinds of /capability/ one needs to be intelligence.
 For example, Wikipedia lists these[fn::
-[[https://en.wikipedia.org/wiki/Artificial_intelligence]]] as: “learning,
+[[https://en.wikipedia.org/wiki/Artificial_intelligence]] ] as: “learning,
 reasoning, problem-solving, perception, and decision-making.”  
-
 Turing, famously, took a third approach.  In 1950, in an article in
 /Mind/, Turing proposed to reframe the entire question around an
 adversarial contest. The idea of the contest was, “can a machine fool
@@ -94,8 +93,32 @@ about C-3PO?
 The point is that neither playing chess, nor recognising birds, nor
 solving complicated logistics problems, nor diagnosing engine faults,
 nor any of the other myriad applications of AI research can “act, in a
-variety of circumstances, to achieve their goals.” 
+variety of circumstances, to achieve their goals.” Well, up until
+about two years ago, anyway. And so we picked away at various aspects
+of intelligence, advancing a little bit each time. Each advance
+required us to make a theory of how some part of intelligence
+“worked.” Maybe reasoning is searching through a tree of expressions
+in formal logic. Maybe learning is really optimisation of some
+parameter space. But none of these theories looked like /general/
+intelligence, because they're not.  And the theories themselves didn't
+look like they /could/ make up general intelligence, no matter how much
+you pushed them.[fn:: Although occasionally people claimed that they
+would, and that it was just a matter of scale. /cf./ [[https://en.wikipedia.org/wiki/Cyc][The Cyc project]].]
  
+On the other hand, each advance really is an advance.  Reasoning might
+not be tree search, but tree search is a clever thing to do in many
+circumstances.  Indeed, at least up to now, each kind of AI has been
+the application of a particular kind of smarts to a particular domain
+and any claims to generality must cash out in a claim that a general
+class of problems can be expressed in this particular domain and
+solved by that particular kind of smarts.  So far those claims haven't
+been overwhelmingly credible.[fn:: Perhaps the reason they have not
+been credible is that we all have a nagging feeling that whatever
+cognition is, it must surely involve “concepts” and their
+manipulation, and so far there is no compelling theory of
+concepts---at least not one instantiated in a computer. (Hofstatder's
+work is perhaps the nearest exception.)]  
+
 
 
 
